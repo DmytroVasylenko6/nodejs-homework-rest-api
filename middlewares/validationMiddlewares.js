@@ -1,25 +1,25 @@
-const Joi = require('joi');
+const Joi = require('joi')
 
 module.exports = {
-    addAndUpdateContactMiddleware: (req, res, next) => {
-         const schema = Joi.object({
-    name: Joi.string()
-      .required(),
-    
-    phone: Joi.number()
-      .required(),
-    
-    email: Joi.string()
-      .email()
-      .required()
-    
-  });
+  addAndUpdateContactMiddleware: (req, res, next) => {
+    const schema = Joi.object({
+      name: Joi.string()
+        .required(),
 
-  const validationResult = schema.validate(req.body);
+      phone: Joi.number()
+        .required(),
 
-  if (validationResult.error) {
-     return res.status(400).json({status: validationResult.error.details})
-  };
-  next();
-    }
+      email: Joi.string()
+        .email()
+        .required()
+
+    })
+
+    const validationResult = schema.validate(req.body)
+
+    if (validationResult.error) {
+      return res.status(400).json({ status: validationResult.error.details })
+    };
+    next()
+  }
 }

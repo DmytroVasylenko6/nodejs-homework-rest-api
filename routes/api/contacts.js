@@ -1,49 +1,35 @@
 const express = require('express')
 const router = express.Router()
-const contactsAction = require('../../model/index')
-const { addAndUpdateContactMiddleware } = require('../../middlewares/validationMiddlewares')
+const {
+  listContactsController,
+  addContactController,
+  getContactByIdController,
+  updateContactController,
+  removeContactController,
+  updateFavoriteController
+} = require('../../controllers/contactControllers')
+const {
+  addAndUpdateContactMiddleware,
+  updateFavoriteMiddleware} = require('../../middlewares/validationMiddlewares')
+const { asyncWrapper } = require('../../helpers/apiHelpers')
+
 
 // GET ContactList
-router.get('/', async (req, res) => {
-  const contacts = await contactsAction.listContacts()
-  res.status(200).json({ contacts: contacts, status: 'success' })
-})
+router.get('/', asyncWrapper(listContactsController))
 
 // GET Contact by ID
-router.get('/:contactId', async (req, res) => {
-  const contactId = req.params.contactId
-  const contact = await contactsAction.getContactById(contactId)
-
-  if (contact) {
-    res.status(200).json({ contact: contact, status: 'success' })
-  } else {
-    res.status(404).json({ message: 'Not found' })
-  }
-})
+router.get('/:contactId', asyncWrapper(getContactByIdController))
 
 // POST Add Contact
-router.post('/', addAndUpdateContactMiddleware, async (req, res) => {
-  const contactAdd = await contactsAction.addContact(req.body)
-  res.status(200).json({ contact: contactAdd, status: 'success' })
-})
+router.post('/', addAndUpdateContactMiddleware, asyncWrapper(addContactController))
 
 // DELETE Delete contact
-router.delete('/:contactId', async (req, res) => {
-  const contactId = req.params.contactId
-  const contact = await contactsAction.removeContact(contactId)
-  console.log(contact)
-  if (contact) {
-    res.status(200).json({ message: `contact "${contact.name}" is deleted`, status: 'success' })
-  } else {
-    res.status(404).json({ message: 'Not found' })
-  }
-})
+router.delete('/:contactId', asyncWrapper(removeContactController))
 
 // PUT Update contact
-router.put('/:contactId', addAndUpdateContactMiddleware, async (req, res) => {
-  const contactId = req.params.contactId
-  const contactUpdate = await contactsAction.updateContact(contactId, req.body)
-  res.status(200).json({ updatedContact: contactUpdate, status: 'success' })
-})
+router.put('/:contactId', addAndUpdateContactMiddleware, asyncWrapper(updateContactController))
+
+// PATCH Update favorite
+router.patch('/:contactId', updateFavoriteMiddleware, asyncWrapper(updateFavoriteController))
 
 module.exports = router

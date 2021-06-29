@@ -1,7 +1,7 @@
 const Joi = require('joi')
+const { ValidationError } = require('../helpers/errors')
 
-module.exports = {
-  addAndUpdateContactMiddleware: (req, res, next) => {
+const addAndUpdateContactMiddleware = (req, res, next) => {
     const schema = Joi.object({
       name: Joi.string()
         .required(),
@@ -11,15 +11,36 @@ module.exports = {
 
       email: Joi.string()
         .email()
-        .required()
+        .required(),
+      
+      favorite: Joi.boolean()
 
     })
 
     const validationResult = schema.validate(req.body)
 
     if (validationResult.error) {
-      return res.status(400).json({ status: validationResult.error.details })
+      next(new ValidationError(validationResult.error))
     };
     next()
-  }
+}
+  
+const updateFavoriteMiddleware = (req, res, next) => {
+    const schema = Joi.object({
+      favorite: Joi.boolean()
+      .required(),
+    })
+
+    const validationResult = schema.validate(req.body)
+
+    if (validationResult.error) {
+      next(new ValidationError(validationResult.error))
+    };
+    next()
+}
+
+module.exports = {
+  addAndUpdateContactMiddleware,
+  updateFavoriteMiddleware
+  
 }

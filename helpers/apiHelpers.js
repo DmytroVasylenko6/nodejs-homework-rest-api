@@ -1,6 +1,7 @@
 const {
   ValidationError,
-  WrongParametersError
+  WrongParametersError,
+  NotAuthorizedError
 } = require('./errors')
 
 const asyncWrapper = (controller) => {
@@ -12,7 +13,8 @@ const asyncWrapper = (controller) => {
 const errorHandler = (err, req, res, next) => {
   if (
     err instanceof ValidationError ||
-    err instanceof WrongParametersError
+    err instanceof WrongParametersError ||
+    err instanceof NotAuthorizedError
   ) {
     return res.status(err.status).json({message: err.message})
   }

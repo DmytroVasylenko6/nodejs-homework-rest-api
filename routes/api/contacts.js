@@ -10,9 +10,12 @@ const {
 } = require('../../controllers/contactControllers')
 const {
   addAndUpdateContactMiddleware,
-  updateFavoriteMiddleware} = require('../../middlewares/validationMiddlewares')
+  updateFavoriteMiddleware } = require('../../middlewares/validationMiddlewares')
+  
+const { authMiddleware} = require('../../middlewares/authMiddleware')
 const { asyncWrapper } = require('../../helpers/apiHelpers')
 
+router.use(authMiddleware)
 
 // GET ContactList
 router.get('/', asyncWrapper(listContactsController))

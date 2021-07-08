@@ -1,31 +1,31 @@
 const { Contact } = require('../db/contactModel')
 const { WrongParametersError } = require('../helpers/errors')
    
-const getContacts = async () => {
-    const contacts = await Contact.find({})
+const getContacts = async (userId) => {
+    const contacts = await Contact.find({userId})
     return contacts
 };
 
-const getContactById = async (id) => {
-    const contact = await Contact.findById(id)
+const getContactById = async (contactId, userId) => {
+    const contact = await Contact.findOne({ _id: contactId, owner: userId})
      if (!contact) {
-        throw new WrongParametersError(`No contact with id ${id} found`)
+        throw new WrongParametersError(`No contact with id ${contactId} found`)
     }
     return contact
 };
 
-const addContact = async (name, phone, email) => {
-    const contactAdd = new Contact({ name, phone, email })
+const addContact = async (name, phone, email, userId) => {
+    const contactAdd = new Contact({ name, phone, email, owner: userId })
     await contactAdd.save()
     return contactAdd
 };
 
-const updateContact = async (contactId, body) => {
-    await Contact.findByIdAndUpdate(contactId, { $set: body })
+const updateContact = async (contactId, body, userId) => {
+    await Contact.findOneAndUpdate({_id: contactId, owner: userId}, { $set: body })
 };
 
-const deleteContact = async (contactId) => {
-   await Contact.findByIdAndDelete(contactId)
+const deleteContact = async (contactId, userId) => {
+   await Contact.findOneAndDelete({_id: contactId, owner: userId})
 };
 
 

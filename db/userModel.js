@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const gravatar = require('gravatar');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -20,6 +21,12 @@ password: {
   token: {
     type: String,
     default: null,
+  },
+  avatarURL: {
+    type: String,
+    default: function () {
+      return gravatar.url(this.email, { s: '250' }, true)
+    }
   },
 })
 userShema.pre('save', async function () {

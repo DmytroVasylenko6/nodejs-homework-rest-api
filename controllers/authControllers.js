@@ -1,8 +1,7 @@
 const {
     userRegistration,
     userLogin,
-    userLogOut,
-    userCurrent
+    userLogOut
 } = require('../services/usersServices')
 
 const registrationController = async (req, res) => {
@@ -24,8 +23,7 @@ const logoutController = async (req, res) => {
 }
 
 const getCurrentUserController = async (req, res) => {
-    const userId = req.user._id
-    const user = await userCurrent(userId)
+    const user = req.user
     res.json({ status: "success", currentUser: { email: user.email, subscription: user.subscription } })
 }
 

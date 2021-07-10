@@ -18,7 +18,7 @@ const authMiddleware = async (req, res, next) => {
         const currentUser = jwt.decode(token, process.env.JWT_SECRET)
         const user = await User.findById(currentUser._id)
         if (user.token === token) {
-            req.user = currentUser
+            req.user = user
         } else {
             next(new NotAuthorizedError('Invalid token'))
         }

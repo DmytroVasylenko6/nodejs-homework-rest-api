@@ -3,6 +3,7 @@ const { NotAuthorizedError } = require('../helpers/errors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+
    
 const userRegistration = async (email, password) => {
     const user = new User({ email, password })
@@ -34,16 +35,20 @@ const userLogOut = async (userId) => {
     await User.findByIdAndUpdate(userId, {$set: {token: null}})
 }
 
-const userCurrent = async (userId) => {
+const getCurrentUser = async (userId) => {
     const user = await User.findById(userId)
     return user
 }
 
+const updateUserAvatar = async (userId, avatarURL) => {
+    await User.findByIdAndUpdate(userId, { $set: { avatarURL } })
+}
 
 
 module.exports = {
     userRegistration,
     userLogin,
     userLogOut,
-    userCurrent
+    getCurrentUser,
+    updateUserAvatar
 }

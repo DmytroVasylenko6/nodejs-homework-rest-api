@@ -12,6 +12,13 @@ class WrongParametersError extends Error {
     }
 }
 
+class VerificationError extends Error {
+    constructor(message) {
+        super(message)
+        this.status = 400
+    }
+}
+
 
 class NotAuthorizedError extends Error {
     constructor(message) {
@@ -23,6 +30,7 @@ class NotAuthorizedError extends Error {
 module.exports = {
     ValidationError,
     WrongParametersError,
-    NotAuthorizedError
+    NotAuthorizedError,
+    VerificationError
 
 }

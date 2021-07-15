@@ -1,14 +1,34 @@
 const {
     userRegistration,
+    userRegistrationConfirmation,
+    secondUserRegConfirmation,
     userLogin,
     userLogOut
 } = require('../services/usersServices')
 
+
+
 const registrationController = async (req, res) => {
     const { email, password } = req.body
     await userRegistration(email, password)
+  
     res.json({status: "success"})
 }
+
+const registrationConfirmationController = async (req, res) => {
+    const { verificationToken } = req.params
+    await userRegistrationConfirmation(verificationToken)
+    res.json({status: "Verification successful"})
+}
+
+
+const secondRegConfController = async (req, res) => {
+    const { email } = req.body
+    await secondUserRegConfirmation(email)
+    res.json({status: "Verification email sent"})
+}
+
+
 
 const loginController = async (req, res) => {
     const { email, password } = req.body
@@ -29,6 +49,8 @@ const getCurrentUserController = async (req, res) => {
 
 module.exports = {
     registrationController,
+    registrationConfirmationController,
+    secondRegConfController,
     loginController,
     logoutController,
     getCurrentUserController

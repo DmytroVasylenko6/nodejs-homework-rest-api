@@ -18,15 +18,23 @@ password: {
     enum: ["starter", "pro", "business"],
     default: "starter"
   },
-  token: {
-    type: String,
-    default: null,
-  },
   avatarURL: {
     type: String,
     default: function () {
       return gravatar.url(this.email, { s: '250' }, true)
     }
+  },
+    token: {
+    type: String,
+    default: null,
+  },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
   },
 })
 userShema.pre('save', async function () {

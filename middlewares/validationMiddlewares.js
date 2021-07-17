@@ -39,8 +39,22 @@ const updateFavoriteMiddleware = (req, res, next) => {
     next()
 }
 
+const secondConfirmEmailMiddleware = (req, res, next) => {
+    const schema = Joi.object({
+      email: Joi.string()
+      .required(),
+    })
+  const validationResult = schema.validate(req.body)
+  
+   if (validationResult.error) {
+      next(new ValidationError(validationResult.error))
+    };
+    next()
+}
+
 module.exports = {
   addAndUpdateContactMiddleware,
-  updateFavoriteMiddleware
+  updateFavoriteMiddleware,
+  secondConfirmEmailMiddleware
   
 }

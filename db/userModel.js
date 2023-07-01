@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
-const gravatar = require('gravatar');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const gravatar = require('gravatar')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
 
 const userShema = new mongoose.Schema({
-password: {
+  password: {
     type: String,
     required: [true, 'Password is required'],
   },
@@ -15,8 +15,8 @@ password: {
   },
   subscription: {
     type: String,
-    enum: ["starter", "pro", "business"],
-    default: "starter"
+    enum: ['starter', 'pro', 'business'],
+    default: 'starter'
   },
   avatarURL: {
     type: String,
@@ -24,7 +24,7 @@ password: {
       return gravatar.url(this.email, { s: '250' }, true)
     }
   },
-    token: {
+  token: {
     type: String,
     default: null,
   },
@@ -38,16 +38,15 @@ password: {
   },
 })
 userShema.pre('save', async function () {
-    if (this.isNew) {
-        this.password =  await bcrypt.hash(this.password, saltRounds)
-    }
-    
-    //TODO: if user changed password 
-})
+  if (this.isNew) {
+    this.password = await bcrypt.hash(this.password, saltRounds)
+  }
 
+  // TODO: if user changed password
+})
 
 const User = mongoose.model('Users', userShema)
 
 module.exports = {
-   User
+  User
 }

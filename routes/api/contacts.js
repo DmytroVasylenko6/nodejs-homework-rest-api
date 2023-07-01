@@ -10,9 +10,10 @@ const {
 } = require('../../controllers/contactControllers')
 const {
   addAndUpdateContactMiddleware,
-  updateFavoriteMiddleware } = require('../../middlewares/validationMiddlewares')
-  
-const { authMiddleware} = require('../../middlewares/authMiddleware')
+  updateFavoriteMiddleware
+} = require('../../middlewares/validationMiddlewares')
+
+const { authMiddleware } = require('../../middlewares/authMiddleware')
 const { asyncWrapper } = require('../../helpers/apiHelpers')
 
 router.use(authMiddleware)

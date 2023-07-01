@@ -1,10 +1,10 @@
 
 const {
-    getContacts,
-    getContactById,
-    addContact,
-    updateContact,
-    deleteContact
+  getContacts,
+  getContactById,
+  addContact,
+  updateContact,
+  deleteContact
 } = require('../services/contactsServices')
 
 const listContactsController = async (req, res) => {
@@ -14,7 +14,7 @@ const listContactsController = async (req, res) => {
 }
 
 const getContactByIdController = async (req, res) => {
-  const contactId  = req.params.contactId
+  const contactId = req.params.contactId
   const userId = req.user._id
   const contact = await getContactById(contactId, userId)
   res.status(200).json({ contact: contact, status: 'success' })
@@ -37,7 +37,7 @@ const updateContactController = async (req, res) => {
 }
 
 const removeContactController = async (req, res) => {
-  const contactId  = req.params.contactId
+  const contactId = req.params.contactId
   const userId = req.user._id
   const contact = await getContactById(contactId, userId)
   await deleteContact(contactId)
@@ -46,7 +46,7 @@ const removeContactController = async (req, res) => {
 
 const updateFavoriteController = async (req, res) => {
   const { favorite } = req.body
-  const contactId  = req.params.contactId
+  const contactId = req.params.contactId
   const userId = req.user._id
   await getContactById(contactId, userId)
   await updateContact(contactId, { favorite }, userId)

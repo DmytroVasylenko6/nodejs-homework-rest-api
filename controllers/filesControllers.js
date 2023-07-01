@@ -1,13 +1,12 @@
 const {
-    updateUserAvatar,
+  updateUserAvatar,
 } = require('../services/usersServices')
 const path = require('path')
 const storeAvatars = path.join(process.cwd(), 'public/avatars')
 const fs = require('fs').promises
-const Jimp = require('jimp');
+const Jimp = require('jimp')
 
 const uploadController = async (req, res) => {
-
   const avatarURL = req.avatarName
   const userId = req.user._id
   const { description } = req.body
@@ -20,10 +19,9 @@ const uploadController = async (req, res) => {
       .autocrop()
       .cover(250, 250, Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE)
       .writeAsync(temporaryName)
-    
+
     await fs.rename(temporaryName, fileName)
     await updateUserAvatar(userId, avatarURL)
-
   } catch (err) {
     await fs.unlink(temporaryName)
     return next(err)
@@ -32,5 +30,5 @@ const uploadController = async (req, res) => {
 }
 
 module.exports = {
-    uploadController,
+  uploadController,
 }

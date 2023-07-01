@@ -1,18 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const {
-    registrationController,
-    registrationConfirmationController,
-    secondRegConfController,
-    loginController,
-    logoutController,
-    getCurrentUserController
+  registrationController,
+  registrationConfirmationController,
+  secondRegConfController,
+  loginController,
+  logoutController,
+  getCurrentUserController
 } = require('../../controllers/authControllers')
-const {
-  secondConfirmEmailMiddleware } = require('../../middlewares/validationMiddlewares')
+const { secondConfirmEmailMiddleware } = require('../../middlewares/validationMiddlewares')
 
 const { asyncWrapper } = require('../../helpers/apiHelpers')
-const { authMiddleware} = require('../../middlewares/authMiddleware')
+const { authMiddleware } = require('../../middlewares/authMiddleware')
 
 // POST Registration
 router.post('/signup', asyncWrapper(registrationController))
@@ -31,6 +30,5 @@ router.get('/verify/:verificationToken', asyncWrapper(registrationConfirmationCo
 
 // POST Second Verification email
 router.post('/verify', secondConfirmEmailMiddleware, asyncWrapper(secondRegConfController))
-
 
 module.exports = router

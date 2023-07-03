@@ -127,7 +127,7 @@ function messageConfirm(email, code) {
     to: email,
     from: 'tredstoun651@ukr.net', // Use the email address or domain you verified above
     subject: 'Thanks you for registration!',
-    text: `Please, confirm your email address GET http://localhost:3000/api/users/verify/${code}`,
-    html: `Please, confirm your email address GET http://localhost:3000/api/users/verify/${code}`,
+    text: `Please, confirm your email address GET https://phonebook-back-node-js.vercel.app/api/users/verify/${code}`,
+    html: `Please, confirm your email address GET https://phonebook-back-node-js.vercel.app/api/users/verify/${code}`,
   }
 };

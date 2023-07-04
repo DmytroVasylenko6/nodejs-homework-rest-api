@@ -8,6 +8,7 @@ const authMiddleware = async (req, res, next) => {
       next(new NotAuthorizedError('Not authorized'))
       return
     }
+    // eslint-disable-next-line no-unused-vars
     const [tokenType, token] = req.headers.authorization.split(' ')
 
     if (!token) {

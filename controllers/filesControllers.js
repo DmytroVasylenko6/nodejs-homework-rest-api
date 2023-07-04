@@ -6,7 +6,7 @@ const storeAvatars = path.join(process.cwd(), 'public/avatars')
 const fs = require('fs').promises
 const Jimp = require('jimp')
 
-const uploadController = async (req, res) => {
+const uploadController = async (req, res, next) => {
   const avatarURL = req.avatarName
   const userId = req.user._id
   const { description } = req.body

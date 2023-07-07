@@ -1,6 +1,6 @@
 module.exports = {
   definition: {
-    openapi: '3.1.0',
+    openapi: '3.0.0',
     info: {
       title: 'Phonebook REST API',
       version: '1.0.0',
@@ -16,7 +16,7 @@ module.exports = {
         url: 'http://localhost:3020/api/'
       },
       {
-        url: 'https://phonebook-rest-api.herokuapp.com/api/'
+        url: 'https://phonebook-back-node-js.vercel.app/api/'
       }
     ],
     consumes: ['application/json'],

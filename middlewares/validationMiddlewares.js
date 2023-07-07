@@ -56,5 +56,4 @@ module.exports = {
   addAndUpdateContactMiddleware,
   updateFavoriteMiddleware,
   secondConfirmEmailMiddleware
-
 }

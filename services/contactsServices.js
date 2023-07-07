@@ -2,7 +2,9 @@ const { Contact } = require('../db/contactModel')
 const { WrongParametersError } = require('../helpers/errors')
 
 const getContacts = async (userId) => {
-  const contacts = await Contact.find({ userId })
+  console.log('getContacts  userId:', userId)
+  const contacts = await Contact.find({ owner: userId })
+  console.log('getContacts  contacts:', contacts)
   return contacts
 }
 

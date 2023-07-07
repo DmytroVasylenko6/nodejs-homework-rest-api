@@ -2,9 +2,21 @@
 module.exports = (specs = {}) => {
   try {
     const customSpecsFiles = [
+      /** Users */
       require('../specs/users/current'),
       require('../specs/users/login'),
       require('../specs/users/signup'),
+      require('../specs/users/logout'),
+      require('../specs/users/verify'),
+      require('../specs/users/verifyResend'),
+      /** Contacts */
+      require('../specs/contacts/getAll'),
+      require('../specs/contacts/getById'),
+      require('../specs/contacts/add'),
+      require('../specs/contacts/delete'),
+      require('../specs/contacts/update'),
+      require('../specs/contacts/updateFavorite'),
+      /** Files */
     ]
 
     const specsFromFiles = customSpecsFiles.reduce((acc, file) => {

@@ -7,7 +7,12 @@ module.exports = {
         tags: ['Users'],
         security: [{ bearerAuth: [] }],
         consumes: ['application/json'],
-        parameters: [],
+        parameters: [{
+          in: 'header',
+          name: 'Authorization',
+          required: true,
+          schema: { type: 'string', example: 'Bearer <token>' }
+        }],
         responses: {
           200: {
             description: 'Ok',
@@ -27,7 +32,6 @@ module.exports = {
                         email: {
                           type: 'string',
                           example: 'dmytro.vasylenko@gmail.com',
-
                         },
                         subscription: {
                           type: 'string',

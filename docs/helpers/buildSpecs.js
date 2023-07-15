@@ -9,6 +9,7 @@ module.exports = (specs = {}) => {
       require('../specs/users/logout'),
       require('../specs/users/verify'),
       require('../specs/users/verifyResend'),
+      require('../specs/users/uploadAvatar'),
       /** Contacts */
       require('../specs/contacts/getAll'),
       require('../specs/contacts/getById'),
@@ -16,7 +17,7 @@ module.exports = (specs = {}) => {
       require('../specs/contacts/delete'),
       require('../specs/contacts/update'),
       require('../specs/contacts/updateFavorite'),
-      /** Files */
+
     ]
 
     const specsFromFiles = customSpecsFiles.reduce((acc, file) => {

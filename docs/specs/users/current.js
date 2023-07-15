@@ -26,12 +26,20 @@ module.exports = {
                       enum: ['success', 'error'],
                       example: 'success'
                     },
-                    currentUser: {
+                    user: {
                       type: 'object',
                       properties: {
+                        name: {
+                          type: 'string',
+                          example: 'Dima',
+                        },
                         email: {
                           type: 'string',
                           example: 'dmytro.vasylenko@gmail.com',
+                        },
+                        avatarURL: {
+                          type: 'string',
+                          example: 'https://test.com/avatar.jpg',
                         },
                         subscription: {
                           type: 'string',

@@ -6,12 +6,14 @@ const {
   secondRegConfController,
   loginController,
   logoutController,
-  getCurrentUserController
-} = require('../../controllers/authControllers')
+  getCurrentUserController,
+  uploadAvatarController
+} = require('../../controllers/userControllers')
 const { secondConfirmEmailMiddleware } = require('../../middlewares/validationMiddlewares')
 
 const { asyncWrapper } = require('../../helpers/apiHelpers')
 const { authMiddleware } = require('../../middlewares/authMiddleware')
+const { uploadAvatarMiddleware } = require('../../middlewares/uploadAvatarMiddleware')
 
 // POST Registration
 router.post('/signup', asyncWrapper(registrationController))
@@ -30,5 +32,8 @@ router.get('/verify/:verificationToken', asyncWrapper(registrationConfirmationCo
 
 // POST Second Verification email
 router.post('/verify', secondConfirmEmailMiddleware, asyncWrapper(secondRegConfController))
+
+// POST Upload user avatar
+router.patch('/uploadAvatar', [uploadAvatarMiddleware.single('avatar'), authMiddleware], asyncWrapper(uploadAvatarController))
 
 module.exports = router

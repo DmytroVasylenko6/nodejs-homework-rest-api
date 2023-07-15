@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 const userShema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Username is required'],
+  },
   password: {
     type: String,
     required: [true, 'Password is required'],
@@ -23,6 +27,10 @@ const userShema = new mongoose.Schema({
     default: function () {
       return gravatar.url(this.email, { s: '250' }, true)
     }
+  },
+  idCloudAvatar: {
+    type: String,
+    default: null,
   },
   token: {
     type: String,

@@ -4,17 +4,23 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { v4: uuidv4 } = require('uuid')
 const sgMail = require('@sendgrid/mail')
+const cloudinaryHelpers = require('../helpers/cloudinaryHelpers')
+const fs = require('fs/promises')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-const userRegistration = async (email, password) => {
-  const verificationCode = uuidv4()
-  const user = new User({ email, password, verifyToken: verificationCode })
+const userRegistration = async (email, password, name) => {
+  const verificationCode = 'test' // uuidv4()
+  const user = new User({ email, password, name, verifyToken: verificationCode })
+  console.log('userRegistration  user:', user)
   await user.save()
 
   sgMail
     .send(messageConfirm(email, verificationCode))
-    .then(() => {}, error => {
-      console.error(error)
+    .then((response) => {
+      console.log(response)
+      console.log('Verification email sent successfully')
+    }, error => {
+      console.error('Error sending verification email:', error)
 
       if (error.response) {
         console.error(error.response.body)
@@ -98,8 +104,26 @@ const getCurrentUser = async (userId) => {
   return user
 }
 
-const updateUserAvatar = async (userId, avatarURL) => {
-  await User.findByIdAndUpdate(userId, { $set: { avatarURL } })
+const updateUserAvatar = async (userId, pathFile) => {
+  try {
+    /** Upload new avatar to cloud */
+    const {
+      secure_url: avatar,
+      public_id: idCloudAvatar
+    } = await cloudinaryHelpers.uploadAvatar(pathFile)
+
+    const user = await User.findById(userId)
+
+    if (user.idCloudAvatar) {
+      /** Delete the old avatar from the cloud */
+      await cloudinaryHelpers.deleteOldAvatar(user.idCloudAvatar)
+    }
+    await User.findByIdAndUpdate(userId, { $set: { avatarURL: avatar, idCloudAvatar } })
+
+    await fs.unlink(pathFile)
+  } catch (error) {
+    console.error(error.message)
+  }
 }
 
 module.exports = {
@@ -118,16 +142,17 @@ function messageIsRegistered(email) {
     from: 'tredstoun651@ukr.net', // Use the email address or domain you verified above
     subject: 'Thanks you for registration!',
     text: 'Congratulations, you have successfully registered!',
-    html: 'Congratulations, you have successfully registered!'
+    html: '<p>Congratulations, you have successfully registered!</p>'
   }
 };
 
 function messageConfirm(email, code) {
+  console.log(email)
   return {
     to: email,
     from: 'tredstoun651@ukr.net', // Use the email address or domain you verified above
     subject: 'Thanks you for registration!',
-    text: `Please, confirm your email address GET https://phonebook-back-node-js.vercel.app/api/users/verify/${code}`,
-    html: `Please, confirm your email address GET https://phonebook-back-node-js.vercel.app/api/users/verify/${code}`,
+    text: `Please, confirm your email address GET http://localhost:3020/api/users/verify/${code}`,
+    html: `<p>Please, confirm your email address GET http://localhost:3020/api/users/verify/${code}</p>`,
   }
 };

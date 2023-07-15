@@ -27,9 +27,6 @@ module.exports = {
       },
       {
         name: 'Contacts'
-      },
-      {
-        name: 'Files'
       }
     ],
     components: {

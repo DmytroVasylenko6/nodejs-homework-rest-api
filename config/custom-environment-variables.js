@@ -1,0 +1,4 @@
+module.exports = {
+  allowedSignupOrigins: 'ALLOWED_SIGNUP_ORIGINS',
+  frontendURL: 'FRONTEND_URL',
+}

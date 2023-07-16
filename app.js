@@ -23,7 +23,7 @@ const corsOptions = {
 console.log(corsOptions.origin)
 
 app.use(logger(formatsLogger))
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, {
   customCssUrl:

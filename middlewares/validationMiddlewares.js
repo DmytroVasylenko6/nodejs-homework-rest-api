@@ -14,7 +14,6 @@ const addAndUpdateContactMiddleware = (req, res, next) => {
       .required(),
 
     favorite: Joi.boolean()
-
   })
 
   const validationResult = schema.validate(req.body)

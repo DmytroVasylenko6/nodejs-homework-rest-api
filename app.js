@@ -15,12 +15,12 @@ const config = require('config')
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 swaggerDocs.paths = buildSpecs(swaggerDocs.paths)
 
-const corsOptions = {
-  origin: config.get('allowedSignupOrigins'),
-  optionsSuccessStatus: 204,
-}
+// const corsOptions = {
+//   origin: config.get('allowedSignupOrigins'),
+//   optionsSuccessStatus: 204,
+// }
 
-console.log(corsOptions.origin)
+// console.log(corsOptions.origin)
 
 app.use(logger(formatsLogger))
 app.use(cors())
@@ -35,7 +35,7 @@ app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs, {
   customSiteTitle: 'Phonebook API documentation',
 }))
 app.get('/', function (req, res) {
-  res.redirect(config.get('frontendURL'))
+  res.redirect('https://androsenkoartem.github.io/goit-react-hw-08-phonebook/')
 })
 app.use('/api/test', (req, res) => { res.json({ message: 'test' }) })
 app.use('/api/contacts', contactsRouter)
